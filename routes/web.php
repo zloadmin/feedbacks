@@ -12,5 +12,6 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $review = \App\Review::inRandomOrder()->first();
+    return view('welcome', compact('review'));
 });
