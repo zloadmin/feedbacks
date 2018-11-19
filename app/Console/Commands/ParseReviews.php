@@ -48,6 +48,7 @@ class ParseReviews extends Command
                 break;
             }
             $i++;
+            sleep(30);
         }
     }
     private function getPageData($page = 1, $teacher_id)

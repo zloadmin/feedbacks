@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('parse:teachers')->daily();
+         $schedule->command('parse:teachers')->dailyAt('12:00');
          $schedule->command('parse:reviews')->daily();
     }
 
