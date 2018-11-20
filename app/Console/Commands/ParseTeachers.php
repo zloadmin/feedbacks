@@ -28,6 +28,7 @@ class ParseTeachers extends Command
      */
     public function handle()
     {
+
         $i = 1;
         while (true) {
             $data = $this->getPageData($i);
