@@ -13,9 +13,10 @@ class CreateReviewsTable extends Migration
      */
     public function up()
     {
+        Schema::defaultStringLength(191);
         Schema::create('reviews', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('text', 255)->unique()->comment('Text of review');
+            $table->string('text')->unique()->comment('Text of review');
             $table->timestamps();
         });
     }
