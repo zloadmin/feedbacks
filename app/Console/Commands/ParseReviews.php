@@ -72,8 +72,8 @@ class ParseReviews extends Command
                 if(
                     isset($review->student_comment)
                     && is_string($review->student_comment)
-                    && strlen($review->student_comment) > 10
-                    && strlen($review->student_comment) < 250
+                    && mb_strlen($review->student_comment) > 10
+                    && mb_strlen($review->student_comment) < 250
                 ) {
                     $this->comment($review->student_comment);
                     Review::firstOrCreate(['text' => $review->student_comment]);
