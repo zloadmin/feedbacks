@@ -18,7 +18,7 @@ class ReviewDetectors
 
     public function isAble()
     {
-        return $this->isEnglish() && $this->isNotPersonal();
+        return $this->isNotEnglish() === false && $this->isPersonal() === false;
     }
     public function isNotEnglish()
     {

@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'App\Console\Commands\ParseTeachers',
         'App\Console\Commands\ParseReviews',
+        'App\Console\Commands\ReviewsChecker',
     ];
 
     /**
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
     {
          $schedule->command('parse:teachers')->dailyAt('12:00');
          $schedule->command('parse:reviews')->daily();
+         $schedule->command('reviews:checker')->monthly();
     }
 
     /**

@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\Review;
 use App\Teacher;
 use Illuminate\Console\Command;
+use App\ReviewDetectors;
+use \StanfordTagger\CRFClassifier;
 
 class ParseReviews extends Command
 {
@@ -69,11 +71,13 @@ class ParseReviews extends Command
 
         if(isset($data->data->comments) && is_array($data->data->comments)) {
             foreach ($data->data->comments as $review) {
+                $detector = new ReviewDetectors($review->student_comment, new CRFClassifier());
                 if(
                     isset($review->student_comment)
                     && is_string($review->student_comment)
                     && mb_strlen($review->student_comment) > 10
                     && mb_strlen($review->student_comment) < 190
+                    && $detector->isAble()
                 ) {
                     $this->comment($review->student_comment);
                     Review::firstOrCreate(['text' => $review->student_comment]);
