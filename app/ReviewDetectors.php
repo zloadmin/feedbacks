@@ -6,27 +6,24 @@ namespace App;
 
 class ReviewDetectors
 {
-    private $text;
-    private $ner;
+    private static $ner;
 
-    public function __construct($text, $ner)
+    public function __construct($ner)
     {
-        $this->text = $text;
-        $this->ner = $ner;
-
+        self::$ner = $ner;
     }
 
-    public function isAble()
+    static function isAble($text)
     {
-        return $this->isNotEnglish() === false && $this->isPersonal() === false;
+        return self::isNotEnglish($text) === false && self::isPersonal($text) === false;
     }
-    public function isNotEnglish()
+    static function isNotEnglish($text)
     {
-        return strlen($this->text) != mb_strlen($this->text, 'utf-8');
+        return strlen($text) != mb_strlen($text, 'utf-8');
     }
-    public function isPersonal()
+    static function isPersonal($text)
     {
-        return strpos((string) $this->ner->tag($this->text), "/PERSON") !== false;
+        return strpos((string) self::$ner->tag($text), "/PERSON") !== false;
     }
 
 }

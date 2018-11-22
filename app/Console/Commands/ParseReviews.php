@@ -24,6 +24,14 @@ class ParseReviews extends Command
      */
     protected $description = 'Parse reviews';
 
+    private $detector;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->detector = new ReviewDetectors(new CRFClassifier());
+    }
+
     /**
      * Execute the console command.
      *
@@ -71,13 +79,12 @@ class ParseReviews extends Command
 
         if(isset($data->data->comments) && is_array($data->data->comments)) {
             foreach ($data->data->comments as $review) {
-                $detector = new ReviewDetectors($review->student_comment, new CRFClassifier());
                 if(
                     isset($review->student_comment)
                     && is_string($review->student_comment)
                     && mb_strlen($review->student_comment) > 10
                     && mb_strlen($review->student_comment) < 190
-                    && $detector->isAble()
+                    && $this->detector->isAble($review->student_comment)
                 ) {
                     $this->comment($review->student_comment);
                     Review::withTrashed()->firstOrCreate(['text' => $review->student_comment]);
