@@ -80,7 +80,7 @@ class ParseReviews extends Command
                     && $detector->isAble()
                 ) {
                     $this->comment($review->student_comment);
-                    Review::firstOrCreate(['text' => $review->student_comment]);
+                    Review::withTrashed()->firstOrCreate(['text' => $review->student_comment]);
                 }
             }
         }
