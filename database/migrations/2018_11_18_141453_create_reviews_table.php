@@ -18,6 +18,7 @@ class CreateReviewsTable extends Migration
             $table->increments('id');
             $table->string('text')->unique()->comment('Text of review');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
