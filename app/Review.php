@@ -16,4 +16,9 @@ class Review extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = ['text'];
+    public function checked()
+    {
+        $this->checked_at = now();
+        $this->save();
+    }
 }

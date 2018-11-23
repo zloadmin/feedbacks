@@ -30,7 +30,7 @@ class ReviewsChecker extends Command
     public function handle()
     {
         $detector = new ReviewDetectors(new CRFClassifier());
-        Review::select('id', 'text')->orderByDesc('created_at')->chunk(100, function ($reviews) use ($detector) {
+        Review::orderByDesc('checked_at')->chunk(100, function ($reviews) use ($detector) {
             foreach ($reviews as $review) {
                 if($detector->isNotEnglish($review->text)) {
                     $this->deleteReview($review, 'is not English');
@@ -38,7 +38,7 @@ class ReviewsChecker extends Command
                     if($detector->isPersonal($review->text))
                         $this->deleteReview($review, 'is personal review');
                 }
-
+                $review->checked();
             }
         });
     }
