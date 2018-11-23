@@ -13,7 +13,7 @@ class ReviewsChecker extends Command
      *
      * @var string
      */
-    protected $signature = 'reviews:checker';
+    protected $signature = 'reviews:checker {--limit=100}';
 
     /**
      * The console command description.
@@ -30,7 +30,9 @@ class ReviewsChecker extends Command
     public function handle()
     {
         $detector = new ReviewDetectors(new CRFClassifier());
-        $reviews = Review::orderByDesc('checked_at')->take(300)->get();
+        $limit = intval($this->option('limit')) > 0 ? (integer) $this->option('limit') : 300;
+
+        $reviews = Review::orderByDesc('checked_at')->take($limit)->get();
         foreach ($reviews as $review) {
             if($detector->isNotEnglish($review->text)) {
                 $this->deleteReview($review, 'is not English');
