@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     {
          $schedule->command('parse:teachers')->dailyAt('12:00');
          $schedule->command('parse:reviews')->daily();
-         $schedule->command('reviews:checker')->monthly();
+         $schedule->command('reviews:checker')->hourly();
     }
 
     /**

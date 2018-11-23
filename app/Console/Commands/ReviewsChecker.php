@@ -30,7 +30,7 @@ class ReviewsChecker extends Command
     public function handle()
     {
         $detector = new ReviewDetectors(new CRFClassifier());
-        Review::orderByDesc('checked_at')->chunk(100, function ($reviews) use ($detector) {
+        Review::orderByDesc('checked_at')->take(300)->chunk(100, function ($reviews) use ($detector) {
             foreach ($reviews as $review) {
                 if($detector->isNotEnglish($review->text)) {
                     $this->deleteReview($review, 'is not English');
