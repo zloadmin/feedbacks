@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/review/random', function () {
-    $review = \App\Review::check()->inRandomOrder()->first();
+    $review = \App\Review::randomReview();
     return [
         'text' => $review->text
     ];

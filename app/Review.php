@@ -25,4 +25,8 @@ class Review extends Model
     {
         return $query->whereNotNull('checked_at');
     }
+    static function randomReview()
+    {
+        return self::select('text')->check()->inRandomOrder()->first();
+    }
 }
