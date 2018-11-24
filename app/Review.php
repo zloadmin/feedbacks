@@ -21,4 +21,8 @@ class Review extends Model
         $this->checked_at = now();
         $this->save();
     }
+    public function scopeCheck($query)
+    {
+        return $query->whereNotNull('checked_at');
+    }
 }
