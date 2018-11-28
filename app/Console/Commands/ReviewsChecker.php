@@ -32,16 +32,18 @@ class ReviewsChecker extends Command
         $detector = new ReviewDetectors(new CRFClassifier());
         $limit = intval($this->option('limit')) > 0 ? (integer) $this->option('limit') : 300;
 
-        $reviews = Review::orderByDesc('checked_at')->take($limit)->get();
-        foreach ($reviews as $review) {
-            if($detector->isNotEnglish($review->text)) {
-                $this->deleteReview($review, 'is not English');
-            } else {
-                if($detector->isPersonal($review->text))
-                    $this->deleteReview($review, 'is personal review');
-            }
-            $review->checked();
-        }
+         Review::orderByDesc('checked_at')->take($limit)->chunk(100, function ($reviews) use (&$detector) {
+             foreach ($reviews as $review) {
+                 if($detector->isNotEnglish($review->text)) {
+                     $this->deleteReview($review, 'is not English');
+                 } else {
+                     if($detector->isPersonal($review->text))
+                         $this->deleteReview($review, 'is personal review');
+                 }
+                 $review->checked();
+             }
+        });
+
 
     }
     private function deleteReview(Review $review, $reason)
