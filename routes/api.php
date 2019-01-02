@@ -19,3 +19,8 @@ Route::get('/review/random', function () {
         'text' => $review->text
     ];
 });
+Route::get('/reviews/random', function () {
+    return [
+    	'data' => \App\Review::randomReviews()
+    ];
+});
